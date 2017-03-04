@@ -10,7 +10,7 @@
                     el-table
                     table组件 
                     data： 数据源
-                    border: 是否带边框
+                    border:  是否带边框
                 -->
                 <el-table
                     :data="tableData"
