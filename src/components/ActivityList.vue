@@ -109,6 +109,79 @@
     </div>
 </template>
 
+<script>
+    import Qrcode from './Qrcode.vue'
+    export default {
+        name: 'activitylist',
+        data() {
+            return {
+                activityName: '',
+                activityId: '',
+                pubPanelFlag: false,
+                tableData: []
+            }
+        },
+        components: {
+            Qrcode
+        },
+        mounted: function () {
+            var _this = this;
+            $.ajax({
+                url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-list&wrapper=true',
+                type: 'get',
+                async: true,
+                dataType: 'jsonp',
+                jsonp: 'jsonpCallback',
+                jsonpCallback:"listFunc",
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        _this.tableData = res.data.rows;
+                    }
+                    
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        methods: {
+            changeRow(index, rows) {
+                console.log(rows[index].id);
+                this.activityId = rows[index].id;
+                this.activityName = rows[index].instName;
+                this.pubPanelFlag = true;
+            },
+            pubNameBtnClick(){
+                var _this = this;
+                $.ajax({
+                    url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-update',
+                    type: 'get',
+                    async: true,
+                    dataType: 'jsonp',
+                    jsonp: 'jsonpCallback',
+                    jsonpCallback:"listFunc",
+                    data: {
+                        jsonParam: JSON.stringify({id: this.activityId,instName:this.activityName})
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code == 0) {
+                            alert("修改成功");
+                            _this.pubPanelFlag = false;
+                            window.location.reload();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+            
+        }
+    }
+</script>
+
 <style>
     .demo-table-expand {
         font-size: 0;
@@ -213,76 +286,3 @@
         height:28px;
     }
 </style>
-
-<script>
-    import Qrcode from './Qrcode.vue'
-    export default {
-        name: 'activitylist',
-        components: {
-            Qrcode
-        },
-        mounted: function () {
-            var _this = this;
-            $.ajax({
-                url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-list&wrapper=true',
-                type: 'get',
-                async: true,
-                dataType: 'jsonp',
-                jsonp: 'jsonpCallback',
-                jsonpCallback:"listFunc",
-                success: function (res) {
-                    console.log(res);
-                    if (res.code == 0) {
-                        _this.tableData = res.data.rows;
-                    }
-                    
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
-        },
-        methods: {
-            changeRow(index, rows) {
-                console.log(rows[index].id);
-                this.activityId = rows[index].id;
-                this.activityName = rows[index].instName;
-                this.pubPanelFlag = true;
-            },
-            pubNameBtnClick(){
-                var _this = this;
-                $.ajax({
-                    url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-update',
-                    type: 'get',
-                    async: true,
-                    dataType: 'jsonp',
-                    jsonp: 'jsonpCallback',
-                    jsonpCallback:"listFunc",
-                    data: {
-                        jsonParam: JSON.stringify({id: this.activityId,instName:this.activityName})
-                    },
-                    success: function (res) {
-                        console.log(res);
-                        if (res.code == 0) {
-                            alert("修改成功");
-                            _this.pubPanelFlag = false;
-                            window.location.reload();
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
-            }
-            
-        },
-        data() {
-            return {
-                activityName: '',
-                activityId: '',
-                pubPanelFlag: false,
-                tableData: []
-            }
-        }
-    }
-</script>

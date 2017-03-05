@@ -67,6 +67,91 @@
         </div>
     </div>
 </template>
+
+<script>
+  import router from '../router.js'
+  export default {
+    name: 'testlist',
+    data() {
+      return {
+        pubName: '',
+        pubId: '',
+        pubPanelFlag: false,
+        httpFlag:'load',
+        tableData: []
+      }
+    },
+    mounted: function () {
+        this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-list');
+    },
+    methods: {
+        http(url, data) {
+            var _this = this;
+            $.ajax({
+                url: '' || url,
+                type: 'get',
+                async: true,
+                dataType: 'jsonp',
+                jsonp: 'jsonpCallback',
+                jsonpCallback:"listFunc",
+                data: '' || data,
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+
+                        switch (_this.httpFlag) {
+                            case 'load': _this.loadFunc(res.data.rows)
+                                break;
+                            case 'change': _this.changeFunc(res.data);
+                                break;
+                            case 'pub': {
+                                alert("发布成功");
+                                _this.pubPanelFlag = false;
+                                router.push('/home/activitylist');
+                            }
+                                break;
+                        }
+
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        loadFunc(arr) {
+            this.tableData = arr;
+        },
+        changeFunc(data) {
+            console.log(data);
+            router.push({name: 'addtest', params: data});
+
+        },
+        changeRow(index, rows) {
+            this.httpFlag = 'change';
+            var data = {paperId: rows[index].id};
+            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-get-nocache', data);
+        },
+        publicRow(index, rows) {
+            //pubPanelFlag true显示遮罩层 false隐藏遮罩层
+            this.pubPanelFlag = true;
+            this.pubId = rows[index].id;
+        },
+        pubNameBtnClick(){
+            this.httpFlag = 'pub';
+            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-create',
+                {jsonParam:
+                    JSON.stringify({instName: this.pubName,paperId:this.pubId})
+                })
+        },
+        deleteRow(index, rows) {
+            // rows.splice(index, 1);
+            console.log(index);
+        }
+    }
+  }
+</script>
+
 <style scoped>
     .el-table{
         max-width: 892px;
@@ -135,87 +220,3 @@
         height:28px;
     }
 </style>
-<script>
-  import router from '../router.js'
-  export default {
-    name: 'testlist',
-    mounted: function () {
-        console.log(this.$parent);
-        this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-list');
-    },
-    methods: {
-        http(url, data) {
-            var _this = this;
-            $.ajax({
-                url: '' || url,
-                type: 'get',
-                async: true,
-                dataType: 'jsonp',
-                jsonp: 'jsonpCallback',
-                jsonpCallback:"listFunc",
-                data: '' || data,
-                success: function (res) {
-                    console.log(res);
-                    if (res.code == 0) {
-
-                        switch (_this.httpFlag) {
-                            case 'load': _this.loadFunc(res.data.rows)
-                                break;
-                            case 'change': _this.changeFunc(res.data);
-                                break;
-                            case 'pub': {
-                                alert("发布成功");
-                                _this.pubPanelFlag = false;
-                                router.push('/home/activitylist');
-                            }
-                                break;
-                        }
-
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
-        },
-        loadFunc(arr) {
-            this.tableData = arr;
-        },
-        changeFunc(data) {
-            console.log(data);
-            router.push({name: 'addtest', params: data});
-
-        },
-        changeRow(index, rows) {
-            this.httpFlag = 'change';
-            var data = {paperId: rows[index].id};
-            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-get-nocache', data);
-        },
-        publicRow(index, rows) {
-            this.pubPanelFlag = true;
-            console.log(rows[index]);
-            this.pubId = rows[index].id;
-        },
-        pubNameBtnClick(){
-            this.httpFlag = 'pub';
-            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-create',
-                {jsonParam:
-                    JSON.stringify({instName: this.pubName,paperId:this.pubId})
-                })
-        },
-        deleteRow(index, rows) {
-            // rows.splice(index, 1);
-            console.log(index);
-        }
-    },
-    data() {
-      return {
-        pubName: '',
-        pubId: '',
-        pubPanelFlag: false,
-        httpFlag:'load',
-        tableData: []
-      }
-    }
-  }
-</script>

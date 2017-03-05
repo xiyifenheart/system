@@ -5,6 +5,7 @@
             <button class="save" @click="save">保存</button>
         </div>
         <div class="test-item-box">
+
             <!--题目开始-->
             <div class="test-item" v-for="(value, index) in paperData.itemList">
                 <table>
@@ -43,6 +44,7 @@
                 </table>
             </div>
             <!--题目结束-->
+
             <button class="addBtn" @click="addItem">添加题目</button>
         </div>
     </div>
@@ -52,6 +54,35 @@
     import router from '../router.js'
     export default{
         name: 'addtest',
+        data() {
+            return{
+                addLessFlag: '',
+                paperData:  {
+                    "paperId": "",
+                    "paperName": "",
+                    "itemList": [
+                        {
+                            "id": "",
+                            "itemAnswer": "",
+                            "itemContent": [{"op": ""},{"op": ""},{"op": ""},{"op": ""}],
+                            "itemTitle": "",
+                            "itemScore": 5,
+                            "optionNum": 4,
+                            "paperId": ''
+                        }
+                    ]
+                },
+                itemData: {
+                    "id": "",
+                    "itemAnswer": "",
+                    "itemContent": [{"op": ""},{"op": ""},{"op": ""},{"op": ""}],
+                    "itemTitle": "",
+                    "itemScore": 5,
+                    "optionNum": 4,
+                    "paperId": ''
+                }
+            }
+        },
         mounted: function () {
             /*
                 如果是从题卷列表点击 修改 跳转过来的,this.$route.params就有数据,否则就是{}
@@ -130,35 +161,6 @@
                 }else if(this.addLessFlag == 'add'){
                     obj.itemContent.push({"op": ""});
                     this.$set(obj, 'optionNum', obj.optionNum+=1);
-                }
-            }
-        },
-        data() {
-            return{
-                addLessFlag: '',
-                paperData:  {
-                    "paperId": "",
-                    "paperName": "",
-                    "itemList": [
-                        {
-                            "id": "",
-                            "itemAnswer": "",
-                            "itemContent": [{"op": ""},{"op": ""},{"op": ""},{"op": ""}],
-                            "itemTitle": "",
-                            "itemScore": 5,
-                            "optionNum": 4,
-                            "paperId": ''
-                        }
-                    ]
-                },
-                itemData: {
-                    "id": "",
-                    "itemAnswer": "",
-                    "itemContent": [{"op": ""},{"op": ""},{"op": ""},{"op": ""}],
-                    "itemTitle": "",
-                    "itemScore": 5,
-                    "optionNum": 4,
-                    "paperId": ''
                 }
             }
         }

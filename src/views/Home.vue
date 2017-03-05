@@ -4,6 +4,8 @@
             <h2>欢迎登录市场营销管理后台！</h2>
         </header>
         <div class="home-main">
+
+            <!--左侧tab切换开始-->
             <div class="home-main-left">
                 <div class="slh-logo">
                     <img src="../../static/images/slh.png" alt="../../static/images/slh.png">
@@ -17,9 +19,14 @@
                     <img src="../../static/images/sz.png" alt="../../static/images/sz.png">
                 </div>
             </div>
+            <!--左侧tab切换结束-->
+
+            <!--右侧开始-->
             <div class="home-main-right">
                 <router-view></router-view>
             </div>
+            <!--右侧结束-->
+            
         </div>
     </div>
 </template>
