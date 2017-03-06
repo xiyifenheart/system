@@ -14,8 +14,9 @@
         },
         props:['qrcodeId'],
         mounted: function () {
+            var timestamp = new Date().getTime();
             $('.qrcode' + this.qrcodeId).qrcode({
-                text: 'http://weixin.hzdlsoft.com/web/exam/index.html?instId=' + this.qrcodeId,
+                text: 'http://weixin.hzdlsoft.com/web/exam/index.html?instId=' + this.qrcodeId + '&v=' + timestamp,
                 width: 100,
                 height: 100
             });
