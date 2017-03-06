@@ -82,18 +82,15 @@
       }
     },
     mounted: function () {
-        this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-list');
+        this.http('http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-paper-list');
     },
     methods: {
         http(url, data) {
             var _this = this;
             $.ajax({
                 url: '' || url,
-                type: 'get',
+                type: 'post',
                 async: true,
-                dataType: 'jsonp',
-                jsonp: 'jsonpCallback',
-                jsonpCallback:"listFunc",
                 data: '' || data,
                 success: function (res) {
                     console.log(res);
@@ -130,7 +127,7 @@
         changeRow(index, rows) {
             this.httpFlag = 'change';
             var data = {paperId: rows[index].id};
-            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-get-nocache', data);
+            this.http('http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-paper-get-nocache', data);
         },
         publicRow(index, rows) {
             //pubPanelFlag true显示遮罩层 false隐藏遮罩层
@@ -139,7 +136,7 @@
         },
         pubNameBtnClick(){
             this.httpFlag = 'pub';
-            this.http('http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-create',
+            this.http('http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-inst-create',
                 {jsonParam:
                     JSON.stringify({instName: this.pubName,paperId:this.pubId})
                 })

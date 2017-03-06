@@ -110,12 +110,9 @@
                     data.itemList[i].itemContent = JSON.stringify(data.itemList[i].itemContent);
                 }
                 $.ajax({
-                    url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-paper-save',
-                    type: 'get',
+                    url: 'http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-paper-save',
+                    type: 'post',
                     async: true,
-                    dataType: 'jsonp',
-                    jsonp: 'jsonpCallback',
-                    jsonpCallback:"listFunc",
                     data: {
                         jsonParam : JSON.stringify(data)
                     },

@@ -127,12 +127,9 @@
         mounted: function () {
             var _this = this;
             $.ajax({
-                url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-list&wrapper=true',
-                type: 'get',
+                url: 'http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-inst-list&wrapper=true',
+                type: 'post',
                 async: true,
-                dataType: 'jsonp',
-                jsonp: 'jsonpCallback',
-                jsonpCallback:"listFunc",
                 success: function (res) {
                     console.log(res);
                     if (res.code == 0) {
@@ -155,7 +152,7 @@
             pubNameBtnClick(){
                 var _this = this;
                 $.ajax({
-                    url: 'http://weixin.hzdlsoft.com/slh/api.do?apiKey=exam-inst-update',
+                    url: 'http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-inst-update',
                     type: 'get',
                     async: true,
                     dataType: 'jsonp',
