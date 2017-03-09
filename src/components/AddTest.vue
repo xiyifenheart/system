@@ -84,6 +84,7 @@
             }
         },
         mounted: function () {
+            $($('#TestPanel ul li')[0]).removeClass('router-link-active');
             /*
                 如果是从题卷列表点击 修改 跳转过来的,this.$route.params就有数据,否则就是{}
             */

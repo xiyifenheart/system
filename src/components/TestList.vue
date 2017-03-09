@@ -82,6 +82,7 @@
       }
     },
     mounted: function () {
+        $($('#TestPanel ul li')[0]).addClass('router-link-active');
         this.http('http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-paper-list');
     },
     methods: {
@@ -90,6 +91,8 @@
             $.ajax({
                 url: '' || url,
                 type: 'post',
+                dataType: 'jsonp',
+                jsonp: 'jsonpCallback',
                 async: true,
                 data: '' || data,
                 success: function (res) {
@@ -99,13 +102,9 @@
                         switch (_this.httpFlag) {
                             case 'load': _this.loadFunc(res.data.rows)
                                 break;
-                            case 'change': _this.changeFunc(res.data);
+                            case 'change': _this.changeFunc(res.data)
                                 break;
-                            case 'pub': {
-                                alert("发布成功");
-                                _this.pubPanelFlag = false;
-                                router.push('/home/activitylist');
-                            }
+                            case 'pub': _this.pubFunc()
                                 break;
                         }
 
@@ -124,6 +123,11 @@
             router.push({name: 'addtest', params: data});
 
         },
+        pubFunc() {
+            alert("发布成功");
+            this.pubPanelFlag = false;
+            router.push('/home/activitylist');
+        },
         changeRow(index, rows) {
             this.httpFlag = 'change';
             var data = {paperId: rows[index].id};
@@ -138,7 +142,7 @@
             this.httpFlag = 'pub';
             this.http('http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-inst-create',
                 {jsonParam:
-                    JSON.stringify({instName: this.pubName,paperId:this.pubId})
+                    JSON.stringify({instName: this.pubName, paperId:this.pubId})
                 })
         },
         deleteRow(index, rows) {

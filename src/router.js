@@ -17,7 +17,7 @@ const routes = [
                 component: TestPanel,
                 children: [
                     {
-                        path: 'list',
+                        path: '/',
                         component: TestList
                     },
                     {

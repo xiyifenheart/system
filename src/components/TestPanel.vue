@@ -1,7 +1,7 @@
 <template>
     <div id="TestPanel">
         <ul class="tab">
-            <router-link tag="li" to="/home/testpanel/list">题卷列表</router-link>
+            <router-link tag="li" to="/home/testpanel">题卷列表</router-link>
             <router-link tag="li" to="/home/testpanel/add">添加题卷</router-link>
         </ul>
         <div class="container">
@@ -16,7 +16,7 @@
     export default{
         name: 'testPanel',
         mounted: function () {
-            router.push('/home/testpanel/list');
+            
         },
         data () {
             return {

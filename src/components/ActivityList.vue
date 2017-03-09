@@ -129,6 +129,8 @@
             $.ajax({
                 url: 'http://weixin.hzdlsoft.com/market/api.do?apiKey=exam-inst-list&wrapper=true',
                 type: 'post',
+                dataType: 'jsonp',
+                jsonp: 'jsonpCallback',
                 async: true,
                 success: function (res) {
                     console.log(res);
